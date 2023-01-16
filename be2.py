@@ -15,13 +15,12 @@ n_m	= 0.98  # rendement de l'arbre
 n_thp = 0.89
 n_tbp = 0.9
 eps_tuy = 0.98
-Tt4 = [1600, 2000, 2200]
+Tt4 = 1600
 pi_c = 40
 pi_f = 1.4
 
 # Question 2: l'evolution du rendement thermique 
-# pi_cph = np.arange(1,50,1).tolist()
-# pi_cph = np.array(pi_cph)
+
 pi_cph = 22
 
 r = 287
@@ -29,13 +28,11 @@ r_etoil	= 291.6
 gamma	= 1.4
 gamma_etoil	= 1.33
 Pk	= 42800000
-#Question 3 
-lda = np.arange(1,50,1)
-lda = np.array(lda)
-# lda = 11
+
+lda = 11
 Fn = 21000
 
-def Rendement_global(pi_f, Tt4):
+def returnRendement(pi_f, Tt4, pi_c, lda):
     #Start
     cp = (gamma/(gamma-1))*r
     
@@ -156,52 +153,40 @@ def Rendement_global(pi_f, Tt4):
     S_2 = m_total/(V0*rho0)
 
     D_fan = np.sqrt(4*S_2/np.pi)
-    return n_global
+
+    return n_th,n_global 
 
    
 
 if __name__ == '__main__':
     
-    # nth = np.zeros(7)
+    #Question 2: l'evolution du rendement thermique en fonction du taux de compression
+    pi_c = np.arange(30,70,1).tolist()
+    a = np.array(pi_c)
+    
+    lamda = np.arange(1,30,1).tolist()
+    lamda = np.array(lamda)
+
+
+    nth1, nglo1 = returnRendement(pi_f = 1, Tt4 = 1600, pi_c = 40, lda = lamda)
+    nth2, nglo2 = returnRendement(pi_f = 1.2, Tt4 = 1600, pi_c = 40, lda = lamda)
+    nth3, nglo3 = returnRendement(pi_f = 1.3, Tt4 = 1600, pi_c = 40, lda = lamda)
+    nth4, nglo4 = returnRendement(pi_f = 1.4, Tt4 = 1600, pi_c = 40, lda = lamda)
+    nth5, nglo5 = returnRendement(pi_f = 1.6, Tt4 = 1600, pi_c = 40, lda = lamda)
+    nth6, nglo6 = returnRendement(pi_f = 2, Tt4 = 1600, pi_c = 40, lda = lamda)
 
     
-    # nth0 = Rendement_thermique(1600)
-    # plt.plot(pi_cph, nth0, label =f'Tt4 = {1600}')
-    # nth3 = Rendement_thermique(1700)
-    # plt.plot(pi_cph, nth3, label =f'Tt4 = {1700}')
-    # nth4 = Rendement_thermique(1800)
-    # plt.plot(pi_cph, nth4, label =f'Tt4 = {1800}')
-   
-    # nth5 = Rendement_thermique(1900)
-    # plt.plot(pi_cph, nth5, label =f'Tt4 = {1900}')
-    # nth1 = Rendement_thermique(2000)
-    # plt.plot(pi_cph, nth1, label =f'Tt4 = {2000}')
-    # nth6 = Rendement_thermique(2100)
-    # plt.plot(pi_cph, nth6, label =f'Tt4 = {2100}')
-
-    # nth7 = Rendement_thermique(2200)
-    # plt.plot(pi_cph, nth7, label =f'Tt4 = {2200}')
-    # nth2 = Rendement_thermique(3400)
-    # plt.plot(pi_cph, nth2, label =f'Tt4 = {3400}')
-
-    g1 = Rendement_global(1.1, 5000)
-    g2 = Rendement_global(1.3, 5000)
-    g3 = Rendement_global(1.4, 5000)
-    g4 = Rendement_global(1.7, 5000)
-    g5 = Rendement_global(1.9, 5000)
-    g6 = Rendement_global(2.5, 5000)
-    
-    plt.plot(lda, g1, label = f'taux = {1.1}')
-    plt.plot(lda, g2, label = f'taux = {1.3}')
-    plt.plot(lda, g3, label = f'taux = {1.4}')
-    plt.plot(lda, g4, label = f'taux = {1.7}')
-    plt.plot(lda, g5, label = f'taux = {1.9}')
-    plt.plot(lda, g6, label = f'taux = {2.5}')
-
-
-    plt.xlabel("Dilution")
-    plt.ylabel("Rendement global")
-    plt.title("Rendement global - Dilution - Tt4 = 5000 C")
+    # print(round(nth1,5))
+    plt.plot(lamda, nglo1, label=r'$\pi_f = 1 $')
+    plt.plot(lamda, nglo2, label=r'$\pi_f = 1.2$')
+    plt.plot(lamda, nglo3, label=r'$\pi_f = 1.4$')
+    plt.plot(lamda, nglo4, label=r'$\pi_f = 1.4$')
+    plt.plot(lamda, nglo5, label=r'$\pi_f = 1.8$')
+    plt.plot(lamda, nglo6, label=r'$\pi_f = 2$')
+    # plt.plot(a, nglo1, label=r'$T_{t4} = 1600 C, global$', color= 'g' )
+    # plt.title(r'Le rendement thermique - le OPR')
+    plt.xlabel(r'$\lambda$')   
+    plt.ylabel(r'$n_{gl}$')
     plt.legend()
     plt.show()
 
