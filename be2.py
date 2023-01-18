@@ -149,10 +149,24 @@ def returnRendement(pi_f, Tt4, pi_c, lda):
     m_bypass = m_total - m_core
 
    
-    rho0 = P0/(r*T0)
-    S_2 = m_total/(V0*rho0)
+    M2 = 0.6
 
-    D_fan = np.sqrt(4*S_2/np.pi)
+
+    P2 = Pt2/np.power(1 + 0.5*(gamma-1)*M2*M2 , gamma/(gamma-1))
+    T2 = Tt2/(1 + 0.5*(gamma-1)*M2*M2)
+
+    V2 = M2*np.sqrt(gamma*r*T2)
+    rho2 = P2/(r*T2)
+    S_2 = m_total/(V2*rho2)
+
+    
+    r_moyeu = 0.3
+
+    rmax = np.sqrt(S_2/np.pi/(1-r_moyeu*r_moyeu))
+
+    D_fan = 2*rmax
+    # print(f'S_2 = {S_2}')
+    
 
     return n_th,n_global 
 
@@ -161,32 +175,32 @@ def returnRendement(pi_f, Tt4, pi_c, lda):
 if __name__ == '__main__':
     
     #Question 2: l'evolution du rendement thermique en fonction du taux de compression
-    pi_c = np.arange(30,70,1).tolist()
+    pi_c = np.arange(3,70,1).tolist()
     a = np.array(pi_c)
     
     lamda = np.arange(1,30,1).tolist()
     lamda = np.array(lamda)
 
 
-    nth1, nglo1 = returnRendement(pi_f = 1, Tt4 = 1600, pi_c = 40, lda = lamda)
-    nth2, nglo2 = returnRendement(pi_f = 1.2, Tt4 = 1600, pi_c = 40, lda = lamda)
-    nth3, nglo3 = returnRendement(pi_f = 1.3, Tt4 = 1600, pi_c = 40, lda = lamda)
-    nth4, nglo4 = returnRendement(pi_f = 1.4, Tt4 = 1600, pi_c = 40, lda = lamda)
-    nth5, nglo5 = returnRendement(pi_f = 1.6, Tt4 = 1600, pi_c = 40, lda = lamda)
-    nth6, nglo6 = returnRendement(pi_f = 2, Tt4 = 1600, pi_c = 40, lda = lamda)
+    nth1, nglo1 = returnRendement(pi_f = 1.4, Tt4 = 1200, pi_c = a, lda = 11)
+    nth2, nglo2 = returnRendement(pi_f = 1.4, Tt4 = 1600, pi_c = a, lda = 11)
+    nth3, nglo3 = returnRendement(pi_f = 1.4, Tt4 = 1800, pi_c = a, lda = 11)
+    nth4, nglo4 = returnRendement(pi_f = 1.4, Tt4 = 2000, pi_c = a, lda = 11)
+    nth5, nglo5 = returnRendement(pi_f = 1.4, Tt4 = 2500, pi_c = a, lda = 11)
+    nth6, nglo6 = returnRendement(pi_f = 1.4, Tt4 = 3000, pi_c = a, lda = 11)
 
     
     # print(round(nth1,5))
-    plt.plot(lamda, nglo1, label=r'$\pi_f = 1 $')
-    plt.plot(lamda, nglo2, label=r'$\pi_f = 1.2$')
-    plt.plot(lamda, nglo3, label=r'$\pi_f = 1.4$')
-    plt.plot(lamda, nglo4, label=r'$\pi_f = 1.4$')
-    plt.plot(lamda, nglo5, label=r'$\pi_f = 1.8$')
-    plt.plot(lamda, nglo6, label=r'$\pi_f = 2$')
+    plt.plot(a, nth1, label=r'$T_{t4} = 1200 C$')
+    plt.plot(a, nth2, label=r'$T_{t4} = 1600 C$')
+    plt.plot(a, nth3, label=r'$T_{t4} = 1800 C$')
+    plt.plot(a, nth4, label=r'$T_{t4} = 2000 C$')
+    plt.plot(a, nth5, label=r'$T_{t4} = 2500 C$')
+    plt.plot(a, nth6, label=r'$T_{t4} = 3000 C$')
     # plt.plot(a, nglo1, label=r'$T_{t4} = 1600 C, global$', color= 'g' )
     # plt.title(r'Le rendement thermique - le OPR')
-    plt.xlabel(r'$\lambda$')   
-    plt.ylabel(r'$n_{gl}$')
+    plt.xlabel(r'$\pi_c$')   
+    plt.ylabel(r'$n_{th}$')
     plt.legend()
     plt.show()
 
