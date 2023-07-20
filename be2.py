@@ -32,11 +32,25 @@ Pk	= 42800000
 lda = 11
 Fn = 21000
 
+def inlet(T0, P0, M0, gamma, gamma_etoil):
+    cp = (gamma/(gamma-1))*r
+    
+    cp_hot = (gamma_etoil/(gamma_etoil-1))*r_etoil
+    # print('\n------- Inlet-------\n')
+    Pt0 = P0*np.power((1+0.5*(gamma-1)*M0*M0),gamma/(gamma-1))
+   
+    Tt0 = T0*np.power((1+0.5*(gamma-1)*M0*M0),1)
+    
+    V0 = M0*np.sqrt(r*gamma*T0)
+
+    return Pt0, Tt0, V0
+
 def returnRendement(pi_f, Tt4, pi_c, lda):
     #Start
     cp = (gamma/(gamma-1))*r
     
     cp_hot = (gamma_etoil/(gamma_etoil-1))*r_etoil
+    
   
     # print('\n------- Inlet-------\n')
     Pt0 = P0*np.power((1+0.5*(gamma-1)*M0*M0),gamma/(gamma-1))
