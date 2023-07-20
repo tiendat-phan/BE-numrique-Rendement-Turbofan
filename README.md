@@ -1,5 +1,3 @@
-## BE-numrique-Model-Turbofan
-
 ## Note
 be2.py is the main program.
 
@@ -15,7 +13,7 @@ After running the program, there are some conclusions that we can remark on:
 * In general, the increase of the dilution rate indices has similar behavior to the global rate.
 * The increase in the compression rate trigger equally the thermal rate.
 
-## To conclude and suggest some progress to improve the performance of LEAP
+## To improve the performance of LEAP
 
 * Increase the compression rates $\pi_c, \pi_f$.
 * Increase the temperature at the end of the combustion chamber $T_{t4}$.
